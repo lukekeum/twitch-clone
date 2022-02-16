@@ -1,12 +1,17 @@
-import { FastifyPluginAsync } from 'fastify';
+import { FastifyPluginCallback } from 'fastify';
+import authRoute from './v1/auth';
 
-const rootRoute: FastifyPluginAsync = async (server) => {
-  server.get('/ping', async () => {
+const rootRoute: FastifyPluginCallback = (fastify, _, done) => {
+  void fastify.register(authRoute, { prefix: '/v1/auth' });
+
+  void fastify.get('/ping', async () => {
     return {
       message: 'pong',
       version: 'v1',
     };
   });
+
+  done();
 };
 
 export default rootRoute;

@@ -17,7 +17,7 @@ export class UserProfile extends BaseEntity {
   @Column('varchar', { length: 255 })
   nickname: string;
 
-  @Column('varchar', { name: 'avatar_url' })
+  @Column('varchar', { name: 'avatar_url', nullable: true })
   avatarURL: string;
 
   @Column('varchar', { nullable: true, length: 255 })

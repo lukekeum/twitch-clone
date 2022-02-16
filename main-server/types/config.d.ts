@@ -5,6 +5,10 @@ declare global {
       CORS_WHITELISTS: string;
       PORT: string;
 
+      ACCESS_JWT_SECRET: string;
+      REFRESH_JWT_SECRET: string;
+      COOKIE_SECRET: string;
+
       // Typeorm Setting
       TYPEORM_CONNECTION: 'postgres' | 'mysql' | 'sqlite' | 'mssql';
       TYPEORM_HOST: string;

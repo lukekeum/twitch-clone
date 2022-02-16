@@ -17,13 +17,6 @@ export enum ErrorType {
   INTERNAL_SERVER_ERROR = 500,
 }
 
-type ErrorName =
-  | 'BadRequestError'
-  | 'NotFoundError'
-  | 'InternalServerError'
-  | 'UnauthorizedError'
-  | 'ForbiddenError';
-
 interface CustomErrorParams {
   type: ErrorType;
   message: string;
