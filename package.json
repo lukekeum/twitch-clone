@@ -1,0 +1,12 @@
+{
+  "name": "twitch-clone",
+  "version": "1.0.0",
+  "private": "true",
+  "license": "MIT",
+  "scripts": {
+    "main-server": "yarn workspace main-server"
+  },
+  "workspaces": [
+    "main-server"
+  ]
+}
