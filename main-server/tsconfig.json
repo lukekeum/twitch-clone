@@ -3,6 +3,7 @@
   "compilerOptions": {
     "types": [
       "@types/node",
+      "@types/jest",
       "./types/config"
     ],
     "declaration": true,
