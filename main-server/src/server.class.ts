@@ -7,9 +7,9 @@ export default class Server {
     this.app = fastify(options);
   }
 
-  async start(port?: string) {
+  async start(port: string | number) {
     try {
-      await this.app.listen((port = ''), '');
+      await this.app.listen(port, '');
     } catch (err) {
       this.app.log.error(err);
       process.exit(1);
