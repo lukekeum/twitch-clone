@@ -1,17 +1,17 @@
-import faker from 'faker';
 import AuthService from '../authService';
 import { instance } from '@src/utils/tests/setup';
+import { User } from '@src/entities/user.entity';
+import generateUserObject from '@src/utils/generateUserObject';
 
 describe('POST /v1/auth/login', () => {
-  const user = {
-    email: faker.internet.email(),
-    password: faker.internet.password(),
-    identifier: faker.internet.userName(),
-    nickname: faker.internet.userName(),
-  };
+  const user = generateUserObject();
 
   beforeAll(async () => {
     await AuthService.addUser(user);
+  });
+
+  afterAll(async () => {
+    await User.delete({ email: user.email });
   });
 
   it('Email user not found', async () => {

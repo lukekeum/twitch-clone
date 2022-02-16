@@ -42,8 +42,37 @@ export default class AuthService {
     });
   }
 
-  static async register(req: FastifyRequest, res: FastifyReply) {
-    // TODO: implement register
+  static async register(
+    req: FastifyRequest<{ Body: RegisterBody }>,
+    res: FastifyReply
+  ) {
+    const { email, password, identifier, nickname } = req.body;
+
+    const emailOrIdentifierUser = await User.createQueryBuilder('user')
+      .where('user.email = :email OR user.identifier = :identifier', {
+        email: email,
+        identifier: identifier,
+      })
+      .getOne();
+
+    if (emailOrIdentifierUser) {
+      throw new CustomError({
+        type: ErrorType.BAD_REQUEST,
+        message: 'Email or identifier already exists',
+      });
+    }
+    try {
+      await this.addUser({ email, password, identifier, nickname });
+
+      return res.status(201).send({
+        message: 'Registered',
+      });
+    } catch (err) {
+      throw new CustomError({
+        type: ErrorType.INTERNAL_SERVER_ERROR,
+        message: 'Error while creating user',
+      });
+    }
   }
 
   static async addUser(payload: RegisterBody) {

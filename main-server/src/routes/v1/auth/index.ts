@@ -1,5 +1,5 @@
 import { FastifyPluginCallback, FastifyRequest } from 'fastify';
-import AuthService, { LoginBody } from './authService';
+import AuthService, { LoginBody, RegisterBody } from './authService';
 
 const authRoute: FastifyPluginCallback = (fastify, opts, done) => {
   fastify.post(
@@ -8,9 +8,12 @@ const authRoute: FastifyPluginCallback = (fastify, opts, done) => {
       return AuthService.login(req, res);
     }
   );
-  fastify.post('/register', async (req, res) => {
-    return AuthService.register(req, res);
-  });
+  fastify.post(
+    '/register',
+    async (req: FastifyRequest<{ Body: RegisterBody }>, res) => {
+      return AuthService.register(req, res);
+    }
+  );
 
   done();
 };
