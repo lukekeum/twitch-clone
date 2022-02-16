@@ -1,4 +1,5 @@
 import './dotenv.config';
+import 'reflect-metadata';
 import Server from './server.class';
 import Database from './database.class';
 
