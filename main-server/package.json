@@ -5,11 +5,12 @@
   "license": "MIT",
   "scripts": {
     "start": "NODE_ENV=production ts-node -r tsconfig-paths/register src/index.ts",
-    "start:dev": "NODE_ENV=development ts-node-dev -r tsconfig-paths/register src/index.ts"
+    "start:dev": "NODE_ENV=development ts-node-dev -r tsconfig-paths/register src/index.ts | pino-pretty"
   },
   "dependencies": {
     "dotenv": "^16.0.0",
     "fastify": "^3.27.1",
+    "fastify-cors": "^6.0.2",
     "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.2.41"
