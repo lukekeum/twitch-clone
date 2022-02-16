@@ -1,0 +1,26 @@
+{
+  "schema": {
+    "body": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "password": {
+          "type": "string",
+          "minLength": 6
+        },
+        "identifier": {
+          "type": "string",
+          "minLength": 6
+        },
+        "nickname": {
+          "type": "string",
+          "minLength": 6
+        }
+      },
+      "required": ["email", "password", "identifier", "nickname"]
+    }
+  }
+}
