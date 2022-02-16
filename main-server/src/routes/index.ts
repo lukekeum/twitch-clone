@@ -1,7 +1,7 @@
 import { FastifyPluginAsync } from 'fastify';
 
-const rootRoute: FastifyPluginAsync = async (server, opts) => {
-  server.get('/ping', async (request, reply) => {
+const rootRoute: FastifyPluginAsync = async (server) => {
+  server.get('/ping', async () => {
     return {
       message: 'pong',
       version: 'v1',

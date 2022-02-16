@@ -13,4 +13,4 @@ async function bootstrap() {
   await server.start(process.env.PORT);
 }
 
-bootstrap();
+void bootstrap();

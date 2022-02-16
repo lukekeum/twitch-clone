@@ -13,8 +13,13 @@ export default class Server {
 
     this.corsSetup(process.env.CORS_WHITELISTS);
 
-    this.app.register(fastifyCors, this.corsOptions);
-    this.app.register(rootRoute, { prefix: '/' });
+    try {
+      void this.app.register(fastifyCors, this.corsOptions);
+      void this.app.register(rootRoute, { prefix: '/' });
+    } catch (err) {
+      this.app.log.error(err);
+      process.exit(1);
+    }
   }
 
   async start(port: string | number) {
