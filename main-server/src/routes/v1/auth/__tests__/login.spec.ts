@@ -21,7 +21,7 @@ describe('POST /v1/auth/login', () => {
       method: 'POST',
       url: '/v1/auth/login',
       payload: {
-        email: 'WRONG EMAIL',
+        email: 'WRONGEMAIL@gmail.com',
         password,
       },
     });
