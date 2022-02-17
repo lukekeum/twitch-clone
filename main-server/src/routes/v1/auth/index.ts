@@ -1,4 +1,5 @@
-import { FastifyPluginCallback, FastifyRequest } from 'fastify';
+import isLoggedIn from '@src/hooks/isLoggedIn';
+import fastify, { FastifyPluginCallback, FastifyRequest } from 'fastify';
 import AuthService, { LoginBody, RegisterBody } from './authService';
 import LoginValidationJSON from './validation/login.validation.json';
 import RegisterValidationJSON from './validation/register.validation.json';
@@ -23,6 +24,13 @@ const authRoute: FastifyPluginCallback = (fastify, opts, done) => {
     return AuthService.refreshToken(req, res);
   });
 
+  fastify.register(logoutRoute, { prefix: '/' });
+
+  done();
+};
+
+const logoutRoute: FastifyPluginCallback = (fastify, opts, done) => {
+  fastify.register(isLoggedIn, { throwError: false });
   fastify.post('/logout', async (req, res) => {
     return AuthService.logout(req, res);
   });
