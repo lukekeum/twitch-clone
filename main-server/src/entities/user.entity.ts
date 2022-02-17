@@ -12,6 +12,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Exclude } from 'class-transformer';
 import { hash } from 'bcrypt';
 import { RefreshToken } from './refreshToken.entity';
 import { UserProfile } from './userProfile.entity';
@@ -27,6 +28,7 @@ export class User extends BaseEntity {
   @Column('varchar', { nullable: false, length: 255, unique: true })
   identifier: string;
 
+  @Exclude()
   @Column('varchar', { nullable: false })
   password: string;
 

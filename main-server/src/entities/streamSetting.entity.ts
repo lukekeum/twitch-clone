@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Exclude } from 'class-transformer';
 import { User } from './user.entity';
 
 @Entity('stream_settings')
@@ -18,9 +19,11 @@ export class StreamSetting extends BaseEntity {
   @Column('uuid')
   fk_user_id: string;
 
+  @Exclude()
   @Column('varchar', { name: 'stream_key', length: 255 })
   streamKey: string;
 
+  @Exclude()
   @Column('integer', {
     name: 'primary_stream_id',
     default: streamkeyGenerator(),
