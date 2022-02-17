@@ -1,13 +1,5 @@
-import { css } from '@emotion/react';
+import { Fragment } from 'react';
 
-export default function Home() {
-  return (
-    <div>
-      <h1 css={style}>Helloworld</h1>
-    </div>
-  );
+export default function Index() {
+  return <Fragment></Fragment>;
 }
-
-const style = css`
-  color: red;
-`;
