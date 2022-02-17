@@ -4,10 +4,12 @@
   "private": "true",
   "license": "MIT",
   "scripts": {
-    "main-server": "yarn workspace main-server"
+    "main-server": "yarn workspace main-server",
+    "client": "yarn workspace client"
   },
   "workspaces": [
-    "main-server"
+    "main-server",
+    "client"
   ],
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.12.0",
