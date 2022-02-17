@@ -19,6 +19,14 @@ const authRoute: FastifyPluginCallback = (fastify, opts, done) => {
     }
   );
 
+  fastify.post('/refresh-token', async (req: FastifyRequest, res) => {
+    return AuthService.refreshToken(req, res);
+  });
+
+  fastify.post('/logout', async (req, res) => {
+    return AuthService.logout(req, res);
+  });
+
   done();
 };
 
