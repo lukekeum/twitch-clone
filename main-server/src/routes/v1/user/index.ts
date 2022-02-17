@@ -1,6 +1,6 @@
 import isLoggedIn from '@src/hooks/isLoggedIn';
-import { FastifyPluginCallback } from 'fastify';
 import UserService from './userService';
+import { FastifyPluginCallback } from 'fastify';
 
 const userRoute: FastifyPluginCallback = (fastify, opts, done) => {
   fastify.register(authenticateRoute, { prefix: '/' });

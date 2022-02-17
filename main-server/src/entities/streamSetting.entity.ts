@@ -1,4 +1,7 @@
-import { streamkeyGenerator } from '@src/utils/streamKeyGenerator';
+import {
+  generateStreamId,
+  generateStreamKey,
+} from '@src/utils/generateStreamKey';
 import {
   BaseEntity,
   Column,
@@ -21,15 +24,24 @@ export class StreamSetting extends BaseEntity {
 
   @Exclude()
   @Column('varchar', { name: 'stream_key', length: 255 })
-  streamKey: string;
+  get streamKey(): string {
+    return `live_${this.primaryStreamId}_${this.primaryStreamKey}`;
+  }
 
   @Exclude()
   @Column('integer', {
     name: 'primary_stream_id',
-    default: streamkeyGenerator(),
+    default: generateStreamId(),
     unique: true,
   })
   primaryStreamId: number;
+
+  @Exclude()
+  @Column('varchar', {
+    name: 'primary_stream_key',
+    default: generateStreamKey(),
+  })
+  primaryStreamKey: string;
 
   @Column('bool', { name: 'is_mature_content', default: false })
   isMatureContent: boolean;
@@ -40,4 +52,9 @@ export class StreamSetting extends BaseEntity {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  genKey() {
+    this.primaryStreamId = generateStreamId();
+    this.primaryStreamKey = generateStreamKey();
+  }
 }
