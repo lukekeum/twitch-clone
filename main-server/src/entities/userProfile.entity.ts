@@ -20,6 +20,9 @@ export class UserProfile extends BaseEntity {
   @Column('varchar', { name: 'avatar_url', nullable: true })
   avatarURL: string;
 
+  @Column('varchar', { name: 'banner_url', nullable: true })
+  banner_url: string;
+
   @Column('varchar', { nullable: true, length: 255 })
   bio: string;
 

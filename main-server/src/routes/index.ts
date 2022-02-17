@@ -1,10 +1,12 @@
 import { FastifyPluginCallback } from 'fastify';
 import authRoute from './v1/auth';
+import userRoute from './v1/user';
 
 const rootRoute: FastifyPluginCallback = (fastify, _, done) => {
-  void fastify.register(authRoute, { prefix: '/v1/auth' });
+  fastify.register(authRoute, { prefix: '/v1/auth' });
+  fastify.register(userRoute, { prefix: '/v1/user' });
 
-  void fastify.get('/ping', async () => {
+  fastify.get('/ping', async () => {
     return {
       message: 'pong',
       version: 'v1',

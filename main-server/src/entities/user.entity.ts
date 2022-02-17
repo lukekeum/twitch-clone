@@ -6,6 +6,8 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -30,6 +32,9 @@ export class User extends BaseEntity {
 
   @OneToOne(() => UserProfile, (userProfile) => userProfile.user)
   userProfile: UserProfile;
+
+  @ManyToOne(() => User)
+  followers: User[];
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
