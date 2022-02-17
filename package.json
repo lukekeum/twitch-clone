@@ -4,11 +4,14 @@
   "private": "true",
   "license": "MIT",
   "scripts": {
+    "postinstall": "patch-package",
     "main-server": "yarn workspace main-server",
+    "rtmp-server": "yarn workspace rtmp-server",
     "client": "yarn workspace client"
   },
   "workspaces": [
     "main-server",
+    "rtmp-server",
     "client"
   ],
   "devDependencies": {
@@ -19,5 +22,9 @@
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.5.1"
+  },
+  "dependencies": {
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0"
   }
 }
