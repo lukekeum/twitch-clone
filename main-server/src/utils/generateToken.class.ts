@@ -11,7 +11,7 @@ export default class GenerateToken {
 
   static generateRefreshToken(payload: TokenPayload) {
     return sign(payload, process.env.REFRESH_JWT_SECRET, {
-      expiresIn: '14d',
+      expiresIn: '30d',
       subject: 'refresh_token',
       issuer: 'twitch.lukekeum.me',
     });

@@ -50,10 +50,32 @@ export class User extends BaseEntity {
     authToken.fk_user_id = this.id;
     await authToken.save();
 
-    const refreshToken = GenerateToken.generateAccessToken({
+    const refreshToken = GenerateToken.generateRefreshToken({
       user_id: this.id,
       token_id: authToken.id,
     });
+    const accessToken = GenerateToken.generateAccessToken({
+      user_id: this.id,
+    });
+
+    return { refreshToken, accessToken };
+  }
+
+  refreshToken(
+    tokenId: string,
+    refreshTokenExp: number,
+    originalRefreshToken: string
+  ) {
+    const now = new Date().getTime();
+    const diff = refreshTokenExp * 1000 - now;
+    let refreshToken = originalRefreshToken;
+
+    if (diff < 1000 * 60 * 60 * 24 * 15) {
+      refreshToken = GenerateToken.generateRefreshToken({
+        user_id: this.id,
+        token_id: tokenId,
+      });
+    }
     const accessToken = GenerateToken.generateAccessToken({
       user_id: this.id,
     });
