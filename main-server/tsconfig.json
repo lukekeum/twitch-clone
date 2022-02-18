@@ -4,7 +4,8 @@
     "types": [
       "@types/node",
       "@types/jest",
-      "./types/config"
+      "./types/config",
+      "./types/fastify"
     ],
     "declaration": true,
     "outDir": "./build",

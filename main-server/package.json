@@ -9,6 +9,7 @@
     "test": "NODE_ENV=test node -r tsconfig-paths/register scripts/setupTests.js"
   },
   "dependencies": {
+    "axios": "^0.26.0",
     "bcrypt": "^5.0.1",
     "class-transformer": "^0.5.1",
     "crypto": "^1.0.1",

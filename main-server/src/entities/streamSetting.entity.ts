@@ -4,6 +4,7 @@ import {
 } from '@src/utils/generateStreamKey';
 import {
   BaseEntity,
+  BeforeInsert,
   Column,
   Entity,
   JoinColumn,
@@ -24,14 +25,11 @@ export class StreamSetting extends BaseEntity {
 
   @Exclude()
   @Column('varchar', { name: 'stream_key', length: 255 })
-  get streamKey(): string {
-    return `live_${this.primaryStreamId}_${this.primaryStreamKey}`;
-  }
+  streamKey: string;
 
   @Exclude()
   @Column('integer', {
     name: 'primary_stream_id',
-    default: generateStreamId(),
     unique: true,
   })
   primaryStreamId: number;
@@ -39,7 +37,6 @@ export class StreamSetting extends BaseEntity {
   @Exclude()
   @Column('varchar', {
     name: 'primary_stream_key',
-    default: generateStreamKey(),
   })
   primaryStreamKey: string;
 
@@ -53,8 +50,15 @@ export class StreamSetting extends BaseEntity {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  genKey() {
-    this.primaryStreamId = generateStreamId();
+  @BeforeInsert()
+  generateStreamKeyBeforeInsert() {
     this.primaryStreamKey = generateStreamKey();
+    this.primaryStreamId = generateStreamId();
+
+    this.streamKey = `live_${this.primaryStreamId}_${this.primaryStreamKey}`;
+  }
+
+  generateStreamKey() {
+    this.primaryStreamId = generateStreamId();
   }
 }

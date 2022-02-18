@@ -79,9 +79,3 @@ const isLoggedInHook: FastifyPluginCallback<PluginConfig> = (
 };
 
 export default fp(isLoggedInHook);
-
-declare module 'fastify' {
-  interface FastifyRequest {
-    userId: string;
-  }
-}

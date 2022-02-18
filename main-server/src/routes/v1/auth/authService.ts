@@ -5,6 +5,7 @@ import { compare } from 'bcrypt';
 import { decode } from 'jsonwebtoken';
 import { setCookie } from '@src/utils/setCookie';
 import { UserProfile } from '@src/entities/userProfile.entity';
+import { StreamSetting } from '@src/entities/streamSetting.entity';
 
 export default class AuthService {
   static async login(
@@ -143,8 +144,11 @@ export default class AuthService {
       nickname,
       fk_user_id: user.id,
     }).save();
+    const streamSetting = await StreamSetting.create({
+      fk_user_id: user.id,
+    }).save();
 
-    return { user, userProfile };
+    return { user, userProfile, streamSetting };
   }
 }
 

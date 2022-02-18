@@ -16,6 +16,7 @@ import { Exclude } from 'class-transformer';
 import { hash } from 'bcrypt';
 import { RefreshToken } from './refreshToken.entity';
 import { UserProfile } from './userProfile.entity';
+import { StreamSetting } from './streamSetting.entity';
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -34,6 +35,9 @@ export class User extends BaseEntity {
 
   @OneToOne(() => UserProfile, (userProfile) => userProfile.user)
   userProfile: UserProfile;
+
+  @OneToOne(() => StreamSetting, (ss) => ss.user)
+  streamSetting: StreamSetting;
 
   @ManyToOne(() => User)
   followers: User[];

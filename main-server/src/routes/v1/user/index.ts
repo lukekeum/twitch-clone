@@ -1,9 +1,19 @@
 import isLoggedIn from '@src/hooks/isLoggedIn';
 import UserService from './userService';
-import { FastifyPluginCallback } from 'fastify';
+import { FastifyPluginCallback, FastifyRequest } from 'fastify';
 
 const userRoute: FastifyPluginCallback = (fastify, opts, done) => {
   fastify.register(authenticateRoute, { prefix: '/' });
+  fastify.get(
+    '/is-streaming',
+    async (req: FastifyRequest<{ Querystring: { id: string } }>, res) => {
+      const { id } = req.query;
+
+      if (!id) return {};
+
+      return UserService.isStreaming(id);
+    }
+  );
 
   done();
 };
