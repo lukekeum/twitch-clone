@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import Link from 'next/link';
 import styled from 'styled-components';
 import VideoControllers from './VideoControllers';
 import Hls from 'hls.js';
@@ -36,8 +37,10 @@ interface VideoContainerProps extends Pick<VideoProps, 'width' | 'height'> {}
 
 const VideoContainer = styled.div<VideoContainerProps>`
   position: relative;
-  width: ${(props) => (props.width ? `${props.width}px` : 'auto')};
-  height: ${(props) => (props.height ? `${props.height}px` : 'auto')};
+  font-size: 0;
+  overflow: hidden;
+  width: ${({ width }) => (width ? `${width}px` : 'auto')};
+  height: ${({ height }) => (height ? `${height}px` : 'auto')};
 `;
 
 const Video = styled.video`
@@ -51,4 +54,6 @@ const Video = styled.video`
   &::-webkit-media-controls-time-remaining-display {
     display: none;
   }
+  margin: 0;
+  padding: 0;
 `;
