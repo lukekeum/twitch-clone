@@ -40,14 +40,15 @@ const LiveTextContainer = styled.div`
   background: ${cssVar('color-fill-live')};
   color: ${cssVar('color-text-overlay')};
   padding: 0 0.5rem;
+  margin-right: 1rem;
   border-radius: ${cssVar('border-radius-medium')};
 `;
 
 const LiveText = styled.p`
   line-height: 1.5;
-  font-weight: ${cssVar('font-weight-semibold')};
-  white-space: nowrap;
-  text-transform: uppercase;
+  font-weight: ${cssVar('font-weight-semibold')} !important;
+  white-space: nowrap !important;
+  text-transform: uppercase !important;
 `;
 
 const VideoDownControl = styled.div`

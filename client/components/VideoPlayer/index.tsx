@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react';
-import Link from 'next/link';
 import styled from 'styled-components';
 import VideoControllers from './VideoControllers';
 import Hls from 'hls.js';
@@ -16,7 +15,12 @@ export default function VideoPlayer({ src, width, height }: VideoProps) {
   useEffect(() => {
     if (videoRef && videoRef.current && Hls.isSupported()) {
       const video = videoRef.current;
-      const hls = new Hls();
+      const hls = new Hls({
+        liveSyncDurationCount: 3,
+        liveMaxLatencyDurationCount: 10,
+        liveDurationInfinity: true,
+        liveBackBufferLength: 0,
+      });
       hls.loadSource(video.src);
       hls.attachMedia(video);
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
@@ -47,7 +51,6 @@ const Video = styled.video`
   background: black;
   width: 100%;
   height: 100%;
-  height: auto;
   z-index: 1;
   &::-webkit-media-controls-timeline,
   &::-webkit-media-controls-current-time-display,
