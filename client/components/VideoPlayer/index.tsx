@@ -26,8 +26,8 @@ export default function VideoPlayer({ src, width, height }: VideoProps) {
 
   return (
     <VideoContainer width={width} height={height}>
+      <Video ref={videoRef} src={src} controls={false} autoPlay />
       <VideoControllers videoRef={videoRef} />
-      <Video ref={videoRef} src={src} controls autoPlay />
     </VideoContainer>
   );
 }
@@ -35,6 +35,7 @@ export default function VideoPlayer({ src, width, height }: VideoProps) {
 interface VideoContainerProps extends Pick<VideoProps, 'width' | 'height'> {}
 
 const VideoContainer = styled.div<VideoContainerProps>`
+  position: relative;
   width: ${(props) => (props.width ? `${props.width}px` : 'auto')};
   height: ${(props) => (props.height ? `${props.height}px` : 'auto')};
 `;
@@ -43,6 +44,7 @@ const Video = styled.video`
   background: black;
   width: 100%;
   height: 100%;
+  height: auto;
   z-index: 1;
   &::-webkit-media-controls-timeline,
   &::-webkit-media-controls-current-time-display,
