@@ -37,9 +37,7 @@ export default function VideoPlayer({ src, width, height }: VideoProps) {
   );
 }
 
-interface VideoContainerProps extends Pick<VideoProps, 'width' | 'height'> {}
-
-const VideoContainer = styled.div<VideoContainerProps>`
+const VideoContainer = styled.div<Pick<VideoProps, 'width' | 'height'>>`
   position: relative;
   font-size: 0;
   overflow: hidden;
@@ -52,9 +50,13 @@ const Video = styled.video`
   width: 100%;
   height: 100%;
   z-index: 1;
+  &::-webkit-media-controls-play-button,
   &::-webkit-media-controls-timeline,
-  &::-webkit-media-controls-current-time-display,
-  &::-webkit-media-controls-time-remaining-display {
+  &::-webkit-media-controls-time-remaining-display,
+  &::-webkit-media-controls-mute-button,
+  &::-webkit-media-controls-toggle-closed-captions-button,
+  &::-webkit-media-controls-volume-slider,
+  &::-webkit-media-controls-fullscreen-button {
     display: none;
   }
   margin: 0;
