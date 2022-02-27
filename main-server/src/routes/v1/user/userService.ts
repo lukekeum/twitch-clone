@@ -28,7 +28,7 @@ export default class UserService {
     try {
       const streamURL = `${process.env.HLS_STREAM_ADDRESS}/${streamKey}/index.m3u8`;
 
-      const isStreaming = await axios.get(streamURL);
+      await axios.get(streamURL);
 
       return {
         result: true,
