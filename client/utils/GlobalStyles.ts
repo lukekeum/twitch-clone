@@ -1317,21 +1317,25 @@ div {
 }
 
 body {
+  background-color:#f7f7f8;
   ${lightTheme}
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
   body {
+    background-color: #0e0e10;
     ${darkTheme}
   }
 }
 
 body[data-theme='light'] {
+  background-color: #f7f7f8;
   ${lightTheme};
 }
 
 body[data-theme='dark'] {
+  background-color: #0e0e10;
   ${darkTheme};
 }
 `;
