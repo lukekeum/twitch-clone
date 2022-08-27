@@ -6,7 +6,10 @@
   "scripts": {
     "start": "NODE_ENV=production ts-node -r tsconfig-paths/register src/index.ts",
     "start:dev": "NODE_ENV=development ts-node-dev -r tsconfig-paths/register src/index.ts | pino-pretty",
-    "test": "NODE_ENV=test node -r tsconfig-paths/register scripts/setupTests.js"
+    "test": "NODE_ENV=test node -r tsconfig-paths/register scripts/setupTests.js",
+    "migration:create": "ts-node node_modules/.bin/typeorm migration:create",
+    "migration:run": "ts-node -r tsconfig-paths/register node_modules/typeorm migration:run",
+    "migration:revert": "ts-node -r tsconfig-paths/register node_modules/.bin/typeorm migration:revert"
   },
   "dependencies": {
     "axios": "^0.26.0",

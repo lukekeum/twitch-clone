@@ -23,6 +23,11 @@ export default class Database {
       synchronize: process.env.TYPEORM_SYNCHRONIZE === 'true',
       logging: process.env.TYPEORM_LOGGING === 'true',
       entities: ['src/entities/*.entity.ts'],
+      migrations: [__dirname + '/migrations/**/*.ts'],
+      cli: {
+        entitiesDir: 'src/entities/*.entity.ts',
+        migrationsDir: __dirname + '/migration',
+      },
     };
   }
 
