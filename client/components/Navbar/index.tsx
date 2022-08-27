@@ -2,7 +2,6 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { cssVar } from '../../utils/css';
 import { HomeButton } from './HomeButton';
-import TwitchFigure from './icons/TwitchFigure';
 
 export default function Navbar() {
   return (
@@ -33,6 +32,9 @@ const Section = styled.div<SectionProps>`
   align-items: stretch;
   justify-content: flex-start;
   flex-wrap: nowrap;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const NavbarNav = styled.nav`
