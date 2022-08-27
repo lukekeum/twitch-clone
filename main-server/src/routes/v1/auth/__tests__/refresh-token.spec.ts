@@ -8,7 +8,7 @@ describe('POST /v1/auth/refresh-token', () => {
   let tokens = {};
 
   beforeAll(async () => {
-    const { user: usr, userProfile } = await AuthService.addUser(user);
+    const { user: usr } = await AuthService.addUser(user);
     tokens = await usr.generateTokens();
   });
 

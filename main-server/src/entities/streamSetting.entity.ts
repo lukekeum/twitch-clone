@@ -43,7 +43,7 @@ export class StreamSetting extends BaseEntity {
   @Column('bool', { name: 'is_mature_content', default: false })
   isMatureContent: boolean;
 
-  @OneToOne(() => User, { cascade: true })
+  @OneToOne(() => User, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'fk_user_id' })
   user: User;
 
