@@ -3940,10 +3940,10 @@ node-int64@^0.4.0:
   resolved "https://registry.yarnpkg.com/node-int64/-/node-int64-0.4.0.tgz#87a9065cdb355d3182d8f94ce11188b825c68a3b"
   integrity sha1-h6kGXNs1XTGC2PlM4RGIuCXGijs=
 
-node-media-server@^2.3.8:
-  version "2.3.8"
-  resolved "https://registry.yarnpkg.com/node-media-server/-/node-media-server-2.3.8.tgz#05ad4d1ea9372d4dd5f7b72fb5f1c00da44ce78b"
-  integrity sha512-IWji6X4RQHoiAu0mTojtQ7dznrdsHRahXG51d8um0bjFKkmtJHN3W9oA2fVtFtDrAYMC5bG9GvGDO2qdZtgzww==
+node-media-server@^2.4.7:
+  version "2.4.7"
+  resolved "https://registry.yarnpkg.com/node-media-server/-/node-media-server-2.4.7.tgz#889e6c5c7f732c998ee41fe6d85547da7abfd840"
+  integrity sha512-VCugwCCkBsXeuPv1h48WzasGjMgCKKF7y1tFgeExJ/WCO/091UCqdkxJBLGKIDYgqZSYybcjs0XMB2BVDpFpJg==
   dependencies:
     basic-auth-connect "^1.0.0"
     chalk "^2.4.2"
