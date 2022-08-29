@@ -21,7 +21,7 @@ export default function VideoPlayer({ src, width, height }: VideoProps) {
         liveDurationInfinity: true,
         liveBackBufferLength: 0,
       });
-      hls.loadSource(video.src);
+      hls.loadSource(src);
       hls.attachMedia(video);
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
         video.play();
@@ -31,7 +31,7 @@ export default function VideoPlayer({ src, width, height }: VideoProps) {
 
   return (
     <VideoContainer width={width} height={height}>
-      <Video ref={videoRef} src={src} controls={false} autoPlay />
+      <Video ref={videoRef} controls={false} autoPlay />
       <VideoControllers videoRef={videoRef} />
     </VideoContainer>
   );

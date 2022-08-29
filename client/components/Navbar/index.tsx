@@ -1,9 +1,16 @@
 import Link from 'next/link';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
+import { userAtom } from '../../atoms/user';
 import { cssVar } from '../../utils/css';
+import AuthButtons from './AuthButtons';
 import { HomeButton } from './HomeButton';
+import { SearchBar } from './SearchBar';
+import UserInfo from './UserInfo';
 
 export default function Navbar() {
+  const user = useRecoilValue(userAtom);
+
   return (
     <NavbarNav>
       <NavbarContainer>
@@ -12,8 +19,12 @@ export default function Navbar() {
             <HomeButton />
           </Link>
         </Section>
-        <Section flexGrow={2} flexShrink={1}></Section>
-        <Section flexGrow={1} flexShrink={2}></Section>
+        <Section flexGrow={2} flexShrink={1}>
+          <SearchBar />
+        </Section>
+        <Section flexGrow={1} flexShrink={2}>
+          {user.isLoggedIn ? <UserInfo /> : <AuthButtons />}
+        </Section>
       </NavbarContainer>
     </NavbarNav>
   );
