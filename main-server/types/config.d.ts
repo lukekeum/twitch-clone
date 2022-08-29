@@ -19,6 +19,10 @@ declare global {
       TYPEORM_SYNCHRONIZE: 'true' | 'false';
       TYPEORM_DROPSCHEMA: 'true' | 'false';
       TYPEORM_LOGGING: 'true' | 'false';
+
+      // Redis Setting
+      REDIS_HOST: string;
+      REDIS_PORT: string;
     }
   }
 }

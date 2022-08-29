@@ -1,3 +1,4 @@
+import './redis.config';
 import './dotenv.config';
 import NodeMediaServer, { Config } from 'node-media-server';
 import { resolve } from 'path';
@@ -33,6 +34,8 @@ function bootstrap() {
   const nms = new NodeMediaServer(config);
 
   nms.run();
+
+  nms.on('donePublish', async (id, path, args) => {});
 }
 
 bootstrap();
