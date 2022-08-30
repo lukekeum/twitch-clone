@@ -24,7 +24,7 @@ export class StreamSetting extends BaseEntity {
   fk_user_id: string;
 
   @Exclude()
-  @Column('varchar', { name: 'stream_key', length: 255 })
+  @Column('varchar', { name: 'stream_key', length: 255, unique: true })
   streamKey: string;
 
   @Exclude()
