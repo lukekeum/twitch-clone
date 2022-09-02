@@ -2,6 +2,8 @@ import './redis.config';
 import './dotenv.config';
 import NodeMediaServer, { Config } from 'node-media-server';
 import { resolve } from 'path';
+import client from './redis.config';
+import axios from 'axios';
 
 function bootstrap() {
   const config: Config = {
@@ -35,7 +37,19 @@ function bootstrap() {
 
   nms.run();
 
-  nms.on('donePublish', async (id, path, args) => {});
+  nms.on('donePublish', async (id, path, args) => {
+    const streamKey = path.split('/')[2];
+
+    try {
+      const response = await axios.get('/v1/stream/user', {
+        data: { stream_id: streamKey },
+      });
+
+      const user_id = response.data;
+
+      client.sAdd('streaming', user_id);
+    } catch (err) {}
+  });
 }
 
 bootstrap();

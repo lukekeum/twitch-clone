@@ -1,0 +1,13 @@
+{
+  "schema": {
+    "body": {
+      "type": "object",
+      "properties": {
+        "stream_id": {
+          "type": "string"
+        }
+      },
+      "required": ["stream_id"]
+    }
+  }
+}
