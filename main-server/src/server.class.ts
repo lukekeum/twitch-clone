@@ -17,8 +17,6 @@ export default class Server {
     this.app = fastify(options);
     this.corsSetup(process.env.CORS_WHITELISTS);
 
-    const schema = generateSchema();
-
     try {
       void this.app.register(fastifyCors, this.corsOptions);
       void this.app.register(fastifyCookie, {

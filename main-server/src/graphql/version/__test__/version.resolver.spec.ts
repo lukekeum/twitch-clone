@@ -1,7 +1,9 @@
-import { query } from '@src/utils/tests/graphqlSetup';
+import { getGraphqlTestingTools } from '@src/utils/tests/graphqlSetup';
 import { gql } from 'apollo-server-fastify';
 
 describe('QUERY version', () => {
+  const { query } = getGraphqlTestingTools();
+
   const VERSION = gql`
     query {
       version

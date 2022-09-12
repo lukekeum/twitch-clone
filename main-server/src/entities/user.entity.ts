@@ -27,7 +27,7 @@ export class User extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column(() => String)
+  @Field(() => String)
   @Column('varchar', { length: 255, unique: true })
   email: string;
 
@@ -109,4 +109,9 @@ export class User extends BaseEntity {
 
     return { refreshToken, accessToken };
   }
+}
+
+export interface UserAuthTokens {
+  refreshToken: string;
+  accessToken: string;
 }

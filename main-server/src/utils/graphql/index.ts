@@ -7,7 +7,11 @@ export default function getGraphqlServerOptions() {
 
   const graphqlServerOption: Config = {
     schema,
-    context: ({ request: req, reply: res }) => ({ req, res }),
+    context: ({ request: req, reply: res }) => ({
+      req,
+      res,
+      cookies: { accessToken: req.cookies.access_token, qid: req.cookies.qid },
+    }),
   };
 
   return graphqlServerOption;
@@ -16,4 +20,8 @@ export default function getGraphqlServerOptions() {
 export interface ContextType {
   req: FastifyRequest;
   res: FastifyReply;
+  cookies: {
+    accessToken?: string;
+    qid?: string;
+  };
 }

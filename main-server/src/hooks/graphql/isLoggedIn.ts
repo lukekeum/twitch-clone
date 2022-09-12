@@ -7,8 +7,8 @@ import { MiddlewareFn } from 'type-graphql';
 import { DecodedUserAccessToken, DecodedUserRefreshToken } from '../isLoggedIn';
 
 export function IsLoggedIn(throwError: boolean): MiddlewareFn<ContextType> {
-  return async ({ context: { req, res } }) => {
-    const { access_token: accessToken, qid } = req.cookies;
+  return async ({ context: { req, res, cookies } }, next) => {
+    const { accessToken, qid } = cookies;
 
     if (!accessToken || !qid) {
       if (throwError) {
@@ -28,7 +28,7 @@ export function IsLoggedIn(throwError: boolean): MiddlewareFn<ContextType> {
 
       req.userId = decodedAccessToken.user_id;
 
-      return req;
+      return next();
     } catch (err) {
       const { user_id, token_id, exp } = decode(qid) as DecodedUserRefreshToken;
 
@@ -41,7 +41,7 @@ export function IsLoggedIn(throwError: boolean): MiddlewareFn<ContextType> {
             message: 'Refresh token or access token not found',
           });
         }
-        return;
+        return false;
       }
 
       const { accessToken, refreshToken } = user.refreshToken(
@@ -55,7 +55,7 @@ export function IsLoggedIn(throwError: boolean): MiddlewareFn<ContextType> {
 
       req.userId = user_id;
 
-      return;
+      return next();
     }
   };
 }

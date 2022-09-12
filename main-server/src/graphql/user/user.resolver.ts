@@ -6,9 +6,9 @@ import { Ctx, Query, Resolver, UseMiddleware } from 'type-graphql';
 @Resolver()
 export class UserResolver {
   @UseMiddleware([IsLoggedIn(true)])
-  @Query(() => User)
-  me(@Ctx() { req }: ContextType) {
-    const user = User.findOne(req.userId);
+  @Query(() => User, { nullable: true })
+  async me(@Ctx() { req }: ContextType): Promise<User | undefined> {
+    const user = await User.findOne(req.userId);
 
     return user;
   }

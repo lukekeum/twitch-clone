@@ -1,11 +1,18 @@
 import { createTestClient } from 'apollo-server-testing';
-import { ApolloServer } from 'apollo-server';
+import { ApolloServer, Config } from 'apollo-server';
 import getGraphqlServerOptions from '../graphql';
 
-const serverOptions = getGraphqlServerOptions();
+export function getGraphqlTestingTools(config: Config = {}) {
+  const serverOptions = getGraphqlServerOptions();
 
-const server = new ApolloServer(serverOptions);
+  serverOptions.context = {};
 
-const { query, mutate } = createTestClient(server);
+  const server = new ApolloServer({
+    ...(serverOptions as any),
+    ...config,
+  });
 
-export { query, mutate };
+  const { query, mutate } = createTestClient(server);
+
+  return { query, mutate };
+}
