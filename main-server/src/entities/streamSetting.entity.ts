@@ -45,9 +45,13 @@ export class StreamSetting extends BaseEntity {
   })
   primaryStreamKey: string;
 
-  @Field(() => Boolean)
-  @Column('bool', { name: 'is_mature_content', default: false })
-  isMatureContent: boolean;
+  @Field(() => String)
+  @Column('varchar', { default: '제목없음' })
+  title: string;
+
+  @Field(() => String)
+  @Column('varchar', { nullable: true })
+  description: string;
 
   @OneToOne(() => User, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'fk_user_id' })
@@ -59,6 +63,10 @@ export class StreamSetting extends BaseEntity {
   @Field()
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @Field()
+  @Column({ type: 'timestamp', default: new Date() })
+  lastStreamed: Date;
 
   @BeforeInsert()
   generateStreamKeyBeforeInsert() {
