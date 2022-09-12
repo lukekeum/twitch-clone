@@ -1,6 +1,9 @@
 import { StreamSetting } from '@src/entities/streamSetting.entity';
 import { User } from '@src/entities/user.entity';
 import { UserProfile } from '@src/entities/userProfile.entity';
+import { Config, ApolloServer } from 'apollo-server';
+import { createTestClient } from 'apollo-server-testing';
+import getGraphqlServerOptions from '../graphql';
 
 interface AddUserPayload {
   email: string;
@@ -28,5 +31,20 @@ export default class TestUtils {
   static async removeUserByEmail(email: string) {
     await User.delete({ email });
     return true;
+  }
+
+  static getGraphqlTestingTool(config: Config = {}) {
+    const serverOptions = getGraphqlServerOptions();
+
+    serverOptions.context = { req: {}, res: {} };
+
+    const server = new ApolloServer({
+      ...(serverOptions as any),
+      ...config,
+    });
+
+    const { query, mutate } = createTestClient(server);
+
+    return { query, mutate };
   }
 }

@@ -1,7 +1,6 @@
 import { User, UserAuthTokens } from '@src/entities/user.entity';
 import generateUserObject from '@src/utils/generateUserObject';
-import { getGraphqlTestingTools } from '@src/utils/tests/graphqlSetup';
-import TestUtils from '@src/utils/tests/utils';
+import TestUtils from '@src/utils/tests/utils.class';
 import { gql } from 'apollo-server-fastify';
 
 describe('QUERY me', () => {
@@ -35,7 +34,7 @@ describe('QUERY me', () => {
   });
 
   it('Cookie not found', async () => {
-    const { query } = getGraphqlTestingTools({
+    const { query } = TestUtils.getGraphqlTestingTool({
       context: ({ request, reply }) => ({
         req,
         res,
@@ -52,7 +51,7 @@ describe('QUERY me', () => {
   });
 
   it('Cookie is valid', async () => {
-    const { query } = getGraphqlTestingTools({
+    const { query } = TestUtils.getGraphqlTestingTool({
       context: ({ request, reply }) => ({
         req,
         res,

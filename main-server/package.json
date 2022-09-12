@@ -70,8 +70,7 @@
       "@tests/(.*)$": "<rootDir>/tests/$1"
     },
     "setupFilesAfterEnv": [
-      "<rootDir>/src/utils/tests/setup.ts",
-      "<rootDir>/src/utils/tests/graphqlSetup.ts"
+      "<rootDir>/src/utils/tests/setup.ts"
     ]
   }
 }
