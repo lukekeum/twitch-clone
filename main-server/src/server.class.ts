@@ -4,15 +4,19 @@ import fastifyCookie from 'fastify-cookie';
 
 import rootRoute from './routes';
 import { CustomError, ErrorType } from './utils/customError.class';
+import { ApolloServer } from 'apollo-server-fastify';
+import generateSchema from './utils/graphql/schema';
 
 export default class Server {
   private readonly app: FastifyInstance;
+  private readonly server: ApolloServer;
   private corsOptions: FastifyCorsOptions;
 
   constructor(options?: FastifyServerOptions) {
     this.app = fastify(options);
-
     this.corsSetup(process.env.CORS_WHITELISTS);
+
+    const schema = generateSchema();
 
     try {
       void this.app.register(fastifyCors, this.corsOptions);
@@ -20,6 +24,10 @@ export default class Server {
         secret: process.env.COOKIE_SECRET,
       });
       void this.app.register(rootRoute, { prefix: '/' });
+
+      this.server = new ApolloServer({
+        schema,
+      });
     } catch (err) {
       this.app.log.error(err);
       process.exit(1);
@@ -28,6 +36,15 @@ export default class Server {
 
   async start(port: string | number) {
     try {
+      await this.server.start();
+
+      this.app.register(
+        this.server.createHandler({
+          cors: false,
+          path: '/graphql',
+        })
+      );
+
       await this.app.listen(port, '');
     } catch (err) {
       this.app.log.error(err);
