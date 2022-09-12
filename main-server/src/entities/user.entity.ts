@@ -17,15 +17,21 @@ import { hash } from 'bcrypt';
 import { RefreshToken } from './refreshToken.entity';
 import { UserProfile } from './userProfile.entity';
 import { StreamSetting } from './streamSetting.entity';
+import { Field, ID, ObjectType } from 'type-graphql';
+import { Follow } from './follow.entity';
 
 @Entity('users')
+@ObjectType()
 export class User extends BaseEntity {
+  @Field(() => ID)
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column(() => String)
   @Column('varchar', { length: 255, unique: true })
   email: string;
 
+  @Field(() => String)
   @Column('varchar', { nullable: false, length: 255, unique: true })
   identifier: string;
 
@@ -33,21 +39,31 @@ export class User extends BaseEntity {
   @Column('varchar', { nullable: false })
   password: string;
 
+  @Field(() => UserProfile)
   @OneToOne(() => UserProfile, (userProfile) => userProfile.user)
   userProfile: UserProfile;
 
+  @Field(() => StreamSetting)
   @OneToOne(() => StreamSetting, (ss) => ss.user)
   streamSetting: StreamSetting;
 
-  @ManyToOne(() => User)
-  followers: User[];
+  @Field(() => Follow)
+  @OneToMany(() => Follow, (follow) => follow.follower)
+  followers: Follow[];
 
+  @Field(() => Follow)
+  @OneToMany(() => Follow, (follow) => follow.following)
+  followings: Follow[];
+
+  @Field()
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
+  @Field()
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
+  @Field()
   @DeleteDateColumn({ name: 'deleted_at' })
   deletedAt: Date;
 

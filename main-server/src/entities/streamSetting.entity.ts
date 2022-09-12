@@ -14,9 +14,12 @@ import {
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { User } from './user.entity';
+import { Field, ID, ObjectType } from 'type-graphql';
 
 @Entity('stream_settings')
+@ObjectType()
 export class StreamSetting extends BaseEntity {
+  @Field(() => ID)
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -40,6 +43,7 @@ export class StreamSetting extends BaseEntity {
   })
   primaryStreamKey: string;
 
+  @Field(() => Boolean)
   @Column('bool', { name: 'is_mature_content', default: false })
   isMatureContent: boolean;
 
@@ -47,6 +51,7 @@ export class StreamSetting extends BaseEntity {
   @JoinColumn({ name: 'fk_user_id' })
   user: User;
 
+  @Field()
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
@@ -58,6 +63,7 @@ export class StreamSetting extends BaseEntity {
     this.streamKey = `live_${this.primaryStreamId}_${this.primaryStreamKey}`;
   }
 
+  @Field(() => String)
   generateStreamKey() {
     this.primaryStreamId = generateStreamId();
   }
