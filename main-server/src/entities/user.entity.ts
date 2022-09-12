@@ -47,11 +47,11 @@ export class User extends BaseEntity {
   @OneToOne(() => StreamSetting, (ss) => ss.user)
   streamSetting: StreamSetting;
 
-  @Field(() => Follow)
+  @Field(() => [Follow])
   @OneToMany(() => Follow, (follow) => follow.follower)
   followers: Follow[];
 
-  @Field(() => Follow)
+  @Field(() => [Follow])
   @OneToMany(() => Follow, (follow) => follow.following)
   followings: Follow[];
 

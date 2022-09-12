@@ -8,6 +8,7 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -15,6 +16,7 @@ import {
 import { Exclude } from 'class-transformer';
 import { User } from './user.entity';
 import { Field, ID, ObjectType } from 'type-graphql';
+import { Category } from './category.entity';
 
 @Entity('stream_settings')
 @ObjectType()
@@ -50,6 +52,9 @@ export class StreamSetting extends BaseEntity {
   @OneToOne(() => User, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'fk_user_id' })
   user: User;
+
+  @ManyToOne(() => Category)
+  category: Category;
 
   @Field()
   @UpdateDateColumn({ name: 'updated_at' })

@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { User } from './user.entity';
 
-@Entity('follow')
+@Entity('follows')
 @ObjectType()
 export class Follow extends BaseEntity {
   @Field(() => ID)
