@@ -1,33 +1,17 @@
 import { User } from '@src/entities/user.entity';
 import { CustomError, ErrorType } from '@src/utils/customError.class';
+import { ContextType } from '@src/utils/graphql';
 import { setCookie } from '@src/utils/setCookie';
-import { FastifyPluginCallback } from 'fastify';
 import { decode, verify } from 'jsonwebtoken';
-import fp from 'fastify-plugin';
+import { MiddlewareFn } from 'type-graphql';
+import { DecodedUserAccessToken, DecodedUserRefreshToken } from '../isLoggedIn';
 
-export interface DecodedUserAccessToken {
-  user_id: string;
-  exp: number;
-}
-
-export interface DecodedUserRefreshToken extends DecodedUserAccessToken {
-  token_id: string;
-}
-
-interface PluginConfig {
-  throwError: boolean;
-}
-
-const isLoggedInHook: FastifyPluginCallback<PluginConfig> = (
-  fastify,
-  opts,
-  done
-) => {
-  fastify.addHook('preHandler', async (req, res) => {
+export function IsLoggedIn(throwError: boolean): MiddlewareFn<ContextType> {
+  return async ({ context: { req, res } }) => {
     const { access_token: accessToken, qid } = req.cookies;
 
     if (!accessToken || !qid) {
-      if (opts.throwError) {
+      if (throwError) {
         throw new CustomError({
           type: ErrorType.UNAUTHORIZED,
           message: 'You must be logged in to use this api',
@@ -51,7 +35,7 @@ const isLoggedInHook: FastifyPluginCallback<PluginConfig> = (
       const user = await User.findOne(user_id);
 
       if (!user) {
-        if (opts.throwError) {
+        if (throwError) {
           throw new CustomError({
             type: ErrorType.BAD_REQUEST,
             message: 'Refresh token or access token not found',
@@ -73,9 +57,5 @@ const isLoggedInHook: FastifyPluginCallback<PluginConfig> = (
 
       return;
     }
-  });
-
-  done();
-};
-
-export default fp(isLoggedInHook);
+  };
+}

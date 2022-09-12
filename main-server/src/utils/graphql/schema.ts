@@ -5,6 +5,7 @@ import RESOLVERS from '@src/graphql/schema';
 export default function generateSchema(): GraphQLSchema {
   const schema = buildSchemaSync({
     resolvers: RESOLVERS,
+    dateScalarMode: 'timestamp',
   });
 
   return schema;
