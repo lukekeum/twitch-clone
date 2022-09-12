@@ -6,6 +6,7 @@ import rootRoute from './routes';
 import { CustomError, ErrorType } from './utils/customError.class';
 import { ApolloServer } from 'apollo-server-fastify';
 import generateSchema from './utils/graphql/schema';
+import getGraphqlServerOptions from './utils/graphql';
 
 export default class Server {
   private readonly app: FastifyInstance;
@@ -25,9 +26,9 @@ export default class Server {
       });
       void this.app.register(rootRoute, { prefix: '/' });
 
-      this.server = new ApolloServer({
-        schema,
-      });
+      const graphqlServerOptions = getGraphqlServerOptions();
+
+      this.server = new ApolloServer(graphqlServerOptions);
     } catch (err) {
       this.app.log.error(err);
       process.exit(1);
