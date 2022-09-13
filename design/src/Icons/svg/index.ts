@@ -1,1 +1,1 @@
-export * from './player';
+export * as player from './player';
