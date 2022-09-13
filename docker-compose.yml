@@ -11,3 +11,9 @@ services:
             POSTGRES_PASSWORD: "twitch"
         volumes:
             - ./db:/var/lib/postgresql/data
+    cache:
+        image: redis:latest
+        container_name: cache
+        restart: always
+        ports:
+            - "6379:6379"

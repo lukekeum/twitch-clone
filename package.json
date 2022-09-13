@@ -7,23 +7,25 @@
     "postinstall": "patch-package",
     "main-server": "yarn workspace main-server",
     "rtmp-server": "yarn workspace rtmp-server",
-    "client": "yarn workspace client"
+    "client": "yarn workspace client",
+    "design": "yarn workspace design"
   },
   "workspaces": [
     "main-server",
     "rtmp-server",
-    "client"
+    "client",
+    "design"
   ],
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.12.0",
-    "@typescript-eslint/parser": "^5.12.0",
-    "eslint": "^8.9.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-prettier": "^4.0.0",
-    "prettier": "^2.5.1"
+    "@typescript-eslint/parser": "^5.37.0",
+    "eslint": "^8.23.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.7.1"
   },
   "dependencies": {
+    "lerna": "^5.5.1",
     "patch-package": "^6.4.7",
     "postinstall-postinstall": "^2.1.0"
   }

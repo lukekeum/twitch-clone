@@ -5,12 +5,12 @@ import { FastifyPluginCallback } from 'fastify';
 import { decode, verify } from 'jsonwebtoken';
 import fp from 'fastify-plugin';
 
-interface DecodedUserAccessToken {
+export interface DecodedUserAccessToken {
   user_id: string;
   exp: number;
 }
 
-interface DecodedUserRefreshToken extends DecodedUserAccessToken {
+export interface DecodedUserRefreshToken extends DecodedUserAccessToken {
   token_id: string;
 }
 

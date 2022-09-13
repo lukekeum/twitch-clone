@@ -2,7 +2,7 @@ import { User } from '@src/entities/user.entity';
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { instanceToPlain } from 'class-transformer';
 import { CustomError, ErrorType } from '@src/utils/customError.class';
-import axios from 'axios';
+import client from '@src/redis.config';
 
 export default class UserService {
   static async me(req: FastifyRequest, res: FastifyReply) {
@@ -28,10 +28,10 @@ export default class UserService {
     try {
       const streamURL = `${process.env.HLS_STREAM_ADDRESS}/${streamKey}/index.m3u8`;
 
-      await axios.get(streamURL);
+      const result = client.sIsMember('streaming', streamKey);
 
       return {
-        result: true,
+        result,
         url: streamURL,
       };
     } catch (err) {
