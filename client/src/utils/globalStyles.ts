@@ -1,5 +1,3 @@
-import { createGlobalStyle } from 'styled-components';
-
 const colours = `
 --border-width-default: 1px;
 --border-width-input: 2px;
