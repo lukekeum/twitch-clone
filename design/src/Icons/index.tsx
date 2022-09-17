@@ -15,7 +15,7 @@ export default function DesignedIcon<T extends FamilyNames>({
   name,
   ...props
 }: DesignedIconProps<T>) {
-  const Icon = (svg[family][name] as unknown) as Function;
+  const Icon = svg[family][name] as unknown as React.FunctionComponent;
 
   return <Icon {...props} />;
 }
