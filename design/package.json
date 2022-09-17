@@ -22,6 +22,7 @@
     "build-storybook": "build-storybook"
   },
   "peerDependencies": {
+    "@emotion/react": ">=11",
     "react": ">=16"
   },
   "husky": {
@@ -48,6 +49,7 @@
     "@storybook/addon-links": "^6.5.12",
     "@storybook/addons": "^6.5.12",
     "@storybook/react": "^6.5.12",
+    "@svgr/webpack": "5.5.0",
     "@types/react": "^18.0.20",
     "@types/react-dom": "^18.0.6",
     "babel-loader": "^8.2.5",
@@ -58,13 +60,11 @@
     "rollup-plugin-svg": "^2.0.0",
     "rollup-plugin-typescript2": "^0.34.0",
     "size-limit": "^8.1.0",
-    "tsdx": "^0.14.1",
+    "tsdx": "git+https://github.com/lukekeum/tsdx.git",
     "tslib": "^2.4.0",
     "typescript": "^4.8.3",
     "url-loader": "^4.1.1"
   },
   "dependencies": {
-    "@svgr/webpack": "5.5.0",
-    "hls.js": "^1.2.3"
   }
 }
