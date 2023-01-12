@@ -3,6 +3,7 @@ declare global {
     interface ProcessEnv {
       NODE_ENV: 'development' | 'production' | 'test';
       CORS_WHITELISTS: string;
+      VERSION: string;
       PORT: string;
 
       ACCESS_JWT_SECRET: string;
