@@ -1,6 +1,8 @@
 import isLoggedIn from '@src/hooks/isLoggedIn';
 import UserService from './userService';
 import { FastifyPluginCallback, FastifyRequest } from 'fastify';
+import { User } from '@src/entities/user.entity';
+import { CustomError, ErrorType } from '@src/utils/customError.class';
 
 const userRoute: FastifyPluginCallback = (fastify, opts, done) => {
   fastify.register(authenticateRoute, { prefix: '/' });
@@ -12,6 +14,29 @@ const userRoute: FastifyPluginCallback = (fastify, opts, done) => {
       if (!id) return {};
 
       return UserService.isStreaming(id);
+    }
+  );
+
+  fastify.get(
+    '/user',
+    async (req: FastifyRequest<{ Querystring: { id: string } }>, res) => {
+      const { id } = req.query;
+
+      if (!id) {
+        throw new CustomError({
+          type: ErrorType.NOT_FOUND,
+          message: 'User not found',
+        });
+      }
+
+      const user = await User.findOne({
+        where: { identifier: id },
+        relations: ['streamSetting'],
+      });
+
+      void res.send(user);
+
+      return;
     }
   );
 
