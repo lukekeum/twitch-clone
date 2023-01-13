@@ -39,6 +39,11 @@ export class UserResolver {
     return user;
   }
 
+  @FieldResolver(() => Boolean, { defaultValue: false })
+  async isStreaming() {
+    return false;
+  }
+
   @FieldResolver(() => [Follow], { nullable: true })
   @Loader<string, Follow[]>(
     async (ids) => {
