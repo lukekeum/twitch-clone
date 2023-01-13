@@ -1,10 +1,8 @@
-import './redis.config';
 import './dotenv.config';
 import { resolve } from 'path';
 import { Config } from 'node-media-server';
 import MediaServer from './mediaServer.class';
 import Server from './server.class';
-import Database from './database.class';
 
 function bootstrap() {
   const config: Config = {
@@ -35,13 +33,10 @@ function bootstrap() {
   };
 
   const server = new Server({ logger: true });
-  const database = new Database();
   const ms = new MediaServer(config);
 
   ms.run();
-  database.connect().then(() => {
-    server.listen(process.env.PROXY_PORT);
-  });
+  server.listen(process.env.PROXY_PORT);
 }
 
 bootstrap();
