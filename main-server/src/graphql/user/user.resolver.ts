@@ -40,26 +40,34 @@ export class UserResolver {
   }
 
   @FieldResolver(() => [Follow], { nullable: true })
-  @Loader<string, Follow[]>(async (ids) => {
-    const followers = await Follow.find({
-      where: { follower: { id: In([...ids]) } },
-    });
-    const followersById = groupBy(followers, 'userId');
-    return ids.map((id) => followersById[id] ?? []);
-  })
+  @Loader<string, Follow[]>(
+    async (ids) => {
+      const followers = await Follow.find({
+        where: { follower: { id: In([...ids]) } },
+        relations: ['follower', 'following', 'following.userProfile'],
+      });
+      const followersById = groupBy(followers, 'follower.id');
+      return ids.map((id) => followersById[id] ?? []);
+    },
+    { cache: false }
+  )
   followers(@Root() user: User) {
     return (dataloader: DataLoader<string, Follow[]>) =>
       dataloader.load(user.id);
   }
 
   @FieldResolver(() => [Follow], { nullable: true })
-  @Loader<string, Follow[]>(async (ids) => {
-    const followings = await Follow.find({
-      where: { following: { id: In([...ids]) } },
-    });
-    const followingsById = groupBy(followings, 'userId');
-    return ids.map((id) => followingsById[id] ?? []);
-  })
+  @Loader<string, Follow[]>(
+    async (ids) => {
+      const followings = await Follow.find({
+        where: { following: { id: In([...ids]) } },
+        relations: ['follower', 'follower.userProfile', 'following'],
+      });
+      const followingsById = groupBy(followings, 'following.id');
+      return ids.map((id) => followingsById[id] ?? []);
+    },
+    { cache: false }
+  )
   followings(@Root() user: User) {
     return (dataloader: DataLoader<string, Follow[]>) =>
       dataloader.load(user.id);
