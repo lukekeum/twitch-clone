@@ -1,18 +1,9 @@
-import { Follow } from '@src/entities/follow.entity';
 import { User } from '@src/entities/user.entity';
 import { IsLoggedIn } from '@src/hooks/graphql/isLoggedIn';
+import { CustomError, ErrorType } from '@src/utils/customError.class';
 import { ContextType } from '@src/utils/graphql';
-import {
-  Arg,
-  Ctx,
-  Int,
-  Mutation,
-  Query,
-  Resolver,
-  UseMiddleware,
-} from 'type-graphql';
-import { Loader } from 'type-graphql-dataloader';
-import { In } from 'typeorm';
+import { Arg, Ctx, Mutation, Resolver, UseMiddleware } from 'type-graphql';
+import { FollowController } from './follow.controller';
 
 @Resolver()
 export class FollowResolver {
@@ -26,16 +17,39 @@ export class FollowResolver {
     @Ctx() { req }: ContextType,
     @Arg('targetId', () => String) identifier: string
   ) {
-    return true;
+    const usrId = req.userId;
+
+    if (usrId === identifier) {
+      throw new CustomError({
+        type: ErrorType.BAD_REQUEST,
+        message: 'User identifier and target identifier should be different',
+      });
+    }
+
+    const result = await FollowController.followUser(req.userId, identifier);
+
+    return result;
   }
 
-  @Query(() => Int, { defaultValue: 0 })
-  async getFolowerCount(@Arg('identifier', () => String) identifier: string) {
-    return 0;
-  }
+  @Mutation(() => Boolean, {
+    defaultValue: false,
+    description: 'Forcing follow/unfollow user (Admin only)',
+  })
+  async followForceUser(
+    @Arg('userId', () => String, { description: "user's identifier" })
+    usrId: string,
+    @Arg('targetId', () => String, { description: "target's identifier" })
+    targetId: string
+  ) {
+    if (usrId === targetId) {
+      throw new CustomError({
+        type: ErrorType.BAD_REQUEST,
+        message: 'User identifier and target identifier should be different',
+      });
+    }
 
-  @Query(() => Int, { defaultValue: 0 })
-  async getFollowingCount(@Arg('identifier', () => String) identifier: string) {
-    return 0;
+    const result = await FollowController.followUser(usrId, targetId);
+
+    return result;
   }
 }
