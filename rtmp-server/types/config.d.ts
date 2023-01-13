@@ -10,6 +10,8 @@ declare global {
       MEDIA_RELATIVE_PATH: string;
       RTMP_PORT: string;
       HTTP_PORT: string;
+      SERVER_ADDRESS: string;
+      MEDIA_ADDRESS: string;
 
       // Typeorm Setting
       TYPEORM_CONNECTION: 'postgres' | 'mysql' | 'sqlite' | 'mssql';

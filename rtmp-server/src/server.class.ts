@@ -1,5 +1,6 @@
 import fastify, { FastifyInstance, FastifyServerOptions } from 'fastify';
 import fastifyCors, { FastifyCorsOptions } from 'fastify-cors';
+import rootRoute from './routes';
 import { CustomError, ErrorType } from './utils/customError.class';
 
 export default class Server {
@@ -11,6 +12,7 @@ export default class Server {
     this.corsSetup(process.env.CORS_WHITELISTS);
 
     this.app.register(fastifyCors, this.corsOptions);
+    this.app.register(rootRoute, { prefix: '/' });
   }
 
   corsSetup(whitelists: string) {

@@ -34,7 +34,7 @@ function bootstrap() {
     },
   };
 
-  const server = new Server({});
+  const server = new Server({ logger: true });
   const database = new Database();
   const ms = new MediaServer(config);
 
