@@ -5,7 +5,6 @@ import fastifyCookie from 'fastify-cookie';
 import rootRoute from './routes';
 import { CustomError, ErrorType } from './utils/customError.class';
 import { ApolloServer } from 'apollo-server-fastify';
-import generateSchema from './utils/graphql/schema';
 import getGraphqlServerOptions from './utils/graphql';
 
 export default class Server {
@@ -37,7 +36,7 @@ export default class Server {
     try {
       await this.server.start();
 
-      this.app.register(
+      void this.app.register(
         this.server.createHandler({
           cors: false,
           path: '/graphql',
