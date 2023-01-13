@@ -1,6 +1,5 @@
 import { Follow } from '@src/entities/follow.entity';
 import { User } from '@src/entities/user.entity';
-import { isNull } from 'lodash';
 
 export class FollowController {
   public static async followUser(

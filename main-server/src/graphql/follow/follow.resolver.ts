@@ -1,4 +1,3 @@
-import { User } from '@src/entities/user.entity';
 import { IsLoggedIn } from '@src/hooks/graphql/isLoggedIn';
 import { CustomError, ErrorType } from '@src/utils/customError.class';
 import { ContextType } from '@src/utils/graphql';
