@@ -49,7 +49,7 @@ export class StreamSetting extends BaseEntity {
   @Column('varchar', { default: '제목없음' })
   title: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   @Column('varchar', { nullable: true })
   description: string;
 

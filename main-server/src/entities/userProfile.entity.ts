@@ -17,19 +17,19 @@ export class UserProfile extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   @Column('varchar', { length: 255 })
   nickname: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   @Column('varchar', { name: 'avatar_url', nullable: true })
   avatarURL: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   @Column('varchar', { name: 'banner_url', nullable: true })
   banner_url: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   @Column('varchar', { nullable: true, length: 255 })
   bio: string;
 
