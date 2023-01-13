@@ -1,9 +1,10 @@
 import './redis.config';
 import './dotenv.config';
-import NodeMediaServer, { Config } from 'node-media-server';
 import { resolve } from 'path';
-import client from './redis.config';
-import axios from 'axios';
+import { Config } from 'node-media-server';
+import MediaServer from './mediaServer.class';
+import Server from './server.class';
+import Database from './database.class';
 
 function bootstrap() {
   const config: Config = {
@@ -33,22 +34,13 @@ function bootstrap() {
     },
   };
 
-  const nms = new NodeMediaServer(config);
+  const server = new Server({});
+  const database = new Database();
+  const ms = new MediaServer(config);
 
-  nms.run();
-
-  nms.on('donePublish', async (id, path, args) => {
-    const streamKey = path.split('/')[2];
-
-    try {
-      const response = await axios.get('/v1/stream/user', {
-        data: { stream_id: streamKey },
-      });
-
-      const user_id = response.data;
-
-      client.sAdd('streaming', user_id);
-    } catch (err) {}
+  ms.run();
+  database.connect().then(() => {
+    server.listen(process.env.PROXY_PORT);
   });
 }
 

@@ -1,7 +1,8 @@
 {
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    "types": ["@types/node"],
+    "types": ["@types/node", "./types/config"],
+    "declaration": true,
     "outDir": "./build",
     "baseUrl": ".",
   }
