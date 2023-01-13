@@ -6,7 +6,6 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -19,6 +18,7 @@ import { UserProfile } from './userProfile.entity';
 import { StreamSetting } from './streamSetting.entity';
 import { Field, ID, ObjectType } from 'type-graphql';
 import { Follow } from './follow.entity';
+import { TypeormLoader } from 'type-graphql-dataloader';
 
 @Entity('users')
 @ObjectType()
@@ -49,10 +49,12 @@ export class User extends BaseEntity {
 
   @Field(() => [Follow])
   @OneToMany(() => Follow, (follow) => follow.follower)
+  @TypeormLoader()
   followers: Follow[];
 
   @Field(() => [Follow])
   @OneToMany(() => Follow, (follow) => follow.following)
+  @TypeormLoader()
   followings: Follow[];
 
   @Field()
