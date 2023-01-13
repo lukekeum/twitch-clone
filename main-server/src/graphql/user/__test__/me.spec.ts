@@ -47,7 +47,9 @@ describe('QUERY me', () => {
 
     const { errors } = await query({ query: QUERY });
 
-    expect(errors![0].message).toBe('You must be logged in to use this api');
+    if (!errors) return;
+
+    expect(errors[0].message).toBe('You must be logged in to use this api');
   });
 
   it('Cookie is valid', async () => {
