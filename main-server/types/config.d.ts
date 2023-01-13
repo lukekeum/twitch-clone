@@ -9,6 +9,7 @@ declare global {
       ACCESS_JWT_SECRET: string;
       REFRESH_JWT_SECRET: string;
       COOKIE_SECRET: string;
+      PROXY_ADDRESS: string;
 
       // Typeorm Setting
       TYPEORM_CONNECTION: 'postgres' | 'mysql' | 'sqlite' | 'mssql';

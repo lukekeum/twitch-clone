@@ -15,6 +15,7 @@ import {
 } from 'type-graphql';
 import { Loader } from 'type-graphql-dataloader';
 import { In } from 'typeorm';
+import fetch from 'node-fetch';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -40,8 +41,20 @@ export class UserResolver {
   }
 
   @FieldResolver(() => Boolean, { defaultValue: false })
-  async isStreaming() {
-    return false;
+  async isStreaming(@Root() user: User) {
+    try {
+      const response = await fetch(
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+        `${process.env.PROXY_ADDRESS}/live/${user.identifier}`
+      );
+
+      if (response.status === 200) {
+        return true;
+      }
+      return false;
+    } catch (err) {
+      return false;
+    }
   }
 
   @FieldResolver(() => [Follow], { nullable: true })
