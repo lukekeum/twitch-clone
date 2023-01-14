@@ -23,8 +23,6 @@ export class FollowController {
         isFollowed = true;
       }
 
-      console.log('isFollowed: ', isFollowed);
-
       if (isFollowed) {
         await Follow.delete({ id: checkFollow?.id });
       } else {
