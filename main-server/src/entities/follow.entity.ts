@@ -18,11 +18,11 @@ export class Follow extends BaseEntity {
   id: string;
 
   @Field(() => User)
-  @ManyToOne(() => User, (user) => user.followings)
+  @ManyToOne(() => User, (user) => user.followings, { onDelete: 'CASCADE' })
   following: User;
 
   @Field(() => User)
-  @ManyToOne(() => User, (user) => user.followers)
+  @ManyToOne(() => User, (user) => user.followers, { onDelete: 'CASCADE' })
   follower: User;
 
   @Field()
