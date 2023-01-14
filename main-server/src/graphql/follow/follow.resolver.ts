@@ -1,3 +1,4 @@
+import { User } from '@src/entities/user.entity';
 import { IsLoggedIn } from '@src/hooks/graphql/isLoggedIn';
 import { CustomError, ErrorType } from '@src/utils/customError.class';
 import { ContextType } from '@src/utils/graphql';
@@ -18,14 +19,19 @@ export class FollowResolver {
   ) {
     const usrId = req.userId;
 
-    if (usrId === identifier) {
+    const user = await User.findOne({ id: usrId });
+
+    if (user?.identifier === identifier || !user) {
       throw new CustomError({
         type: ErrorType.BAD_REQUEST,
         message: 'User identifier and target identifier should be different',
       });
     }
 
-    const result = await FollowController.followUser(req.userId, identifier);
+    const result = await FollowController.followUser(
+      user.identifier,
+      identifier
+    );
 
     return result;
   }
