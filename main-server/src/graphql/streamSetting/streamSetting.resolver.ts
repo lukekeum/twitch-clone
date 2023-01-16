@@ -10,7 +10,8 @@ export class StreamSettingResolver {
       where: { id: setting?.fk_user_id },
     });
 
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    return `${process.env.PROXY_ADDRESS}/live/${user?.identifier}`;
+    if (!user) return;
+
+    return `${process.env.PROXY_ADDRESS}/live/${user.identifier}`;
   }
 }
