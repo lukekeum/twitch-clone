@@ -27,6 +27,19 @@ export function IsAdmin(throwError: boolean): MiddlewareFn<ContextType> {
           message: ResponseMessage.SHOULD_LOGIN,
         });
       }
+      return;
     }
+
+    if (!user.isAdmin) {
+      if (throwError) {
+        throw new CustomError({
+          type: ErrorType.UNAUTHORIZED,
+          message: ResponseMessage.PERMISSION_DENIED,
+        });
+      }
+      return;
+    }
+
+    return next();
   };
 }
