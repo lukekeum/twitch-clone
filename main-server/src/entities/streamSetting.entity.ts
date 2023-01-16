@@ -28,7 +28,7 @@ export class StreamSetting extends BaseEntity {
   @Column('uuid')
   fk_user_id: string;
 
-  @Exclude()
+  @Field(() => String)
   @Column('varchar', { name: 'stream_key', length: 255, unique: true })
   streamKey: string;
 
@@ -76,7 +76,6 @@ export class StreamSetting extends BaseEntity {
     this.streamKey = `live_${this.primaryStreamId}_${this.primaryStreamKey}`;
   }
 
-  @Field(() => String)
   generateStreamKey() {
     this.primaryStreamId = generateStreamId();
   }

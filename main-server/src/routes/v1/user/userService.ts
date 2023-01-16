@@ -1,11 +1,12 @@
 import { User } from '@src/entities/user.entity';
-import { FastifyRequest, FastifyReply } from 'fastify';
+import { FastifyRequest } from 'fastify';
 import { instanceToPlain } from 'class-transformer';
-import { CustomError, ErrorType } from '@src/utils/customError.class';
+import { CustomError, ErrorType } from '@src/utils/errors/customError.class';
 import client from '@src/redis.config';
+import { ResponseMessage } from '@src/utils/errors/responseMessage';
 
 export default class UserService {
-  static async me(req: FastifyRequest, res: FastifyReply) {
+  static async me(req: FastifyRequest) {
     const user = await User.findOne(req.userId, {
       relations: ['userProfile'],
     });
@@ -19,7 +20,7 @@ export default class UserService {
     if (!user) {
       throw new CustomError({
         type: ErrorType.NOT_FOUND,
-        message: 'User not found',
+        message: ResponseMessage.USER_NOT_FOUND,
       });
     }
 

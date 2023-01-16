@@ -57,6 +57,10 @@ export class User extends BaseEntity {
   @TypeormLoader()
   followings: Follow[];
 
+  @Field(() => Boolean)
+  @Column('boolean', { default: false, name: 'is_admin' })
+  isAdmin: boolean;
+
   @Field()
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;

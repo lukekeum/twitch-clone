@@ -1,11 +1,12 @@
 import { User } from '@src/entities/user.entity';
-import { CustomError, ErrorType } from '@src/utils/customError.class';
+import { CustomError, ErrorType } from '@src/utils/errors/customError.class';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { compare } from 'bcrypt';
 import { decode } from 'jsonwebtoken';
 import { setCookie } from '@src/utils/setCookie';
 import { UserProfile } from '@src/entities/userProfile.entity';
 import { StreamSetting } from '@src/entities/streamSetting.entity';
+import { ResponseMessage } from '@src/utils/errors/responseMessage';
 
 export default class AuthService {
   static async login(
@@ -21,7 +22,7 @@ export default class AuthService {
     if (!user) {
       throw new CustomError({
         type: ErrorType.NOT_FOUND,
-        message: 'User not found',
+        message: ResponseMessage.USER_NOT_FOUND,
       });
     }
 
@@ -30,7 +31,7 @@ export default class AuthService {
     if (!isPasswordCorrect) {
       throw new CustomError({
         type: ErrorType.UNAUTHORIZED,
-        message: 'Incorrect password',
+        message: ResponseMessage.INCORRECT_PASSWORD,
       });
     }
 
@@ -40,7 +41,7 @@ export default class AuthService {
     void setCookie(res, 'access_token', token.accessToken);
 
     return res.status(201).send({
-      message: 'Logged in',
+      message: ResponseMessage.LOGGED_IN,
     });
   }
 
@@ -60,19 +61,19 @@ export default class AuthService {
     if (emailOrIdentifierUser) {
       throw new CustomError({
         type: ErrorType.BAD_REQUEST,
-        message: 'Email or identifier already exists',
+        message: ResponseMessage.ALREADY_EXISTS,
       });
     }
     try {
       await this.addUser({ email, password, identifier, nickname });
 
       return res.status(201).send({
-        message: 'Registered',
+        message: ResponseMessage.REGISTERED,
       });
     } catch (err) {
       throw new CustomError({
         type: ErrorType.INTERNAL_SERVER_ERROR,
-        message: 'Error while creating user',
+        message: ResponseMessage.INTERNAL_SERVER_ERROR,
       });
     }
   }
@@ -83,7 +84,7 @@ export default class AuthService {
     if (!refreshToken) {
       throw new CustomError({
         type: ErrorType.BAD_REQUEST,
-        message: 'Refresh token not found',
+        message: ResponseMessage.TOKEN_NOT_FOUND,
       });
     }
 
@@ -100,7 +101,7 @@ export default class AuthService {
     if (!user) {
       throw new CustomError({
         type: ErrorType.UNAUTHORIZED,
-        message: 'Invalid RefreshToken',
+        message: ResponseMessage.INVALID_TOKEN,
       });
     }
 
@@ -114,7 +115,7 @@ export default class AuthService {
     setCookie(res, 'qid', qid);
 
     return res.status(201).send({
-      message: 'Refreshed',
+      message: ResponseMessage.REFRESHED_TOKEN,
     });
   }
 
@@ -132,7 +133,7 @@ export default class AuthService {
     res.clearCookie('access_token');
 
     return res.status(201).send({
-      message: 'Logged out',
+      message: ResponseMessage.LOGGED_OUT,
     });
   }
 

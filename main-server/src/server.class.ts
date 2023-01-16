@@ -3,9 +3,10 @@ import fastifyCors, { FastifyCorsOptions } from 'fastify-cors';
 import fastifyCookie from 'fastify-cookie';
 
 import rootRoute from './routes';
-import { CustomError, ErrorType } from './utils/customError.class';
+import { CustomError, ErrorType } from './utils/errors/customError.class';
 import { ApolloServer } from 'apollo-server-fastify';
 import getGraphqlServerOptions from './utils/graphql';
+import { ResponseMessage } from './utils/errors/responseMessage';
 
 export default class Server {
   private readonly app: FastifyInstance;
@@ -68,7 +69,7 @@ export default class Server {
         } else {
           throw new CustomError({
             type: ErrorType.FORBIDDEN,
-            message: 'Not allowed access by cors',
+            message: ResponseMessage.NOT_ALLOWED_CORS,
           });
         }
       },

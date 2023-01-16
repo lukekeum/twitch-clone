@@ -1,6 +1,7 @@
 import { User } from '@src/entities/user.entity';
 import { IsLoggedIn } from '@src/hooks/graphql/isLoggedIn';
-import { CustomError, ErrorType } from '@src/utils/customError.class';
+import { CustomError, ErrorType } from '@src/utils/errors/customError.class';
+import { ResponseMessage } from '@src/utils/errors/responseMessage';
 import { ContextType } from '@src/utils/graphql';
 import { Arg, Ctx, Mutation, Resolver, UseMiddleware } from 'type-graphql';
 import { FollowController } from './follow.controller';
@@ -24,7 +25,7 @@ export class FollowResolver {
     if (user?.identifier === identifier || !user) {
       throw new CustomError({
         type: ErrorType.BAD_REQUEST,
-        message: 'User identifier and target identifier should be different',
+        message: ResponseMessage.INVALID_INPUT,
       });
     }
 
@@ -49,7 +50,7 @@ export class FollowResolver {
     if (usrId === targetId) {
       throw new CustomError({
         type: ErrorType.BAD_REQUEST,
-        message: 'User identifier and target identifier should be different',
+        message: ResponseMessage.INVALID_INPUT,
       });
     }
 

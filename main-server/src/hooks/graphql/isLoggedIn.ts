@@ -1,5 +1,6 @@
 import { User } from '@src/entities/user.entity';
-import { CustomError, ErrorType } from '@src/utils/customError.class';
+import { CustomError, ErrorType } from '@src/utils/errors/customError.class';
+import { ResponseMessage } from '@src/utils/errors/responseMessage';
 import { ContextType } from '@src/utils/graphql';
 import { setCookie } from '@src/utils/setCookie';
 import { decode, verify } from 'jsonwebtoken';
@@ -14,7 +15,7 @@ export function IsLoggedIn(throwError: boolean): MiddlewareFn<ContextType> {
       if (throwError) {
         throw new CustomError({
           type: ErrorType.UNAUTHORIZED,
-          message: 'You must be logged in to use this api',
+          message: ResponseMessage.SHOULD_LOGIN,
         });
       }
       return;
@@ -38,7 +39,7 @@ export function IsLoggedIn(throwError: boolean): MiddlewareFn<ContextType> {
         if (throwError) {
           throw new CustomError({
             type: ErrorType.BAD_REQUEST,
-            message: 'Refresh token or access token not found',
+            message: ResponseMessage.SHOULD_LOGIN,
           });
         }
         return false;

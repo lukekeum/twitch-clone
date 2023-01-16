@@ -5,5 +5,5 @@ export function generateStreamId(): number {
 }
 
 export function generateStreamKey(): string {
-  return randomBytes(30).toString('hex');
+  return randomBytes(15).toString('hex');
 }

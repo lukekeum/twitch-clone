@@ -1,6 +1,6 @@
 import { StreamSetting } from '@src/entities/streamSetting.entity';
 import { User } from '@src/entities/user.entity';
-import { FieldResolver, Resolver, Root } from 'type-graphql';
+import { FieldResolver, Mutation, Resolver, Root } from 'type-graphql';
 
 @Resolver(() => StreamSetting)
 export class StreamSettingResolver {

@@ -1,9 +1,10 @@
 import { User } from '@src/entities/user.entity';
-import { CustomError, ErrorType } from '@src/utils/customError.class';
+import { CustomError, ErrorType } from '@src/utils/errors/customError.class';
 import { setCookie } from '@src/utils/setCookie';
 import { FastifyPluginCallback } from 'fastify';
 import { decode, verify } from 'jsonwebtoken';
 import fp from 'fastify-plugin';
+import { ResponseMessage } from '@src/utils/errors/responseMessage';
 
 export interface DecodedUserAccessToken {
   user_id: string;
@@ -30,7 +31,7 @@ const isLoggedInHook: FastifyPluginCallback<PluginConfig> = (
       if (opts.throwError) {
         throw new CustomError({
           type: ErrorType.UNAUTHORIZED,
-          message: 'You must be logged in to use this api',
+          message: ResponseMessage.SHOULD_LOGIN,
         });
       }
       return;
@@ -54,7 +55,7 @@ const isLoggedInHook: FastifyPluginCallback<PluginConfig> = (
         if (opts.throwError) {
           throw new CustomError({
             type: ErrorType.BAD_REQUEST,
-            message: 'Refresh token or access token not found',
+            message: ResponseMessage.TOKEN_NOT_FOUND,
           });
         }
         return;

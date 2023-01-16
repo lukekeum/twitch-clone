@@ -1,5 +1,6 @@
 import { StreamSetting } from '@src/entities/streamSetting.entity';
-import { CustomError, ErrorType } from '@src/utils/customError.class';
+import { CustomError, ErrorType } from '@src/utils/errors/customError.class';
+import { ResponseMessage } from '@src/utils/errors/responseMessage';
 import { FastifyReply } from 'fastify';
 
 export default class StreamService {
@@ -8,8 +9,8 @@ export default class StreamService {
 
     if (!setting) {
       throw new CustomError({
-        type: ErrorType.NOT_FOUND,
-        message: 'Invalid Stream Key',
+        type: ErrorType.BAD_REQUEST,
+        message: ResponseMessage.INVALID_INPUT,
       });
     }
 
