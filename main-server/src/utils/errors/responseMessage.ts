@@ -14,6 +14,7 @@ export enum ResponseMessage {
   TOKEN_NOT_FOUND = 'Refresh token or access token not found',
   INVALID_TOKEN = 'Invalid token found',
   INCORRECT_PASSWORD = 'Incorrect password',
+  PERMISSION_DENIED = 'Permission Denied',
 
   // Forbidden(403)
   NOT_ALLOWED_CORS = 'Not allowed access by cors',
