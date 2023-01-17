@@ -4,7 +4,7 @@ import { CustomError, ErrorType } from '@src/utils/errors/customError.class';
 import { ResponseMessage } from '@src/utils/errors/responseMessage';
 import { ContextType } from '@src/utils/graphql';
 import { Arg, Ctx, Mutation, Resolver, UseMiddleware } from 'type-graphql';
-import { FollowController } from './follow.controller';
+import { FollowService } from './follow.service';
 
 @Resolver()
 export class FollowResolver {
@@ -29,10 +29,7 @@ export class FollowResolver {
       });
     }
 
-    const result = await FollowController.followUser(
-      user.identifier,
-      identifier
-    );
+    const result = await FollowService.followUser(user.identifier, identifier);
 
     return result;
   }
@@ -54,7 +51,7 @@ export class FollowResolver {
       });
     }
 
-    const result = await FollowController.followUser(usrId, targetId);
+    const result = await FollowService.followUser(usrId, targetId);
 
     return result;
   }

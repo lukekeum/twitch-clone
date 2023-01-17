@@ -1,7 +1,7 @@
 import { Follow } from '@src/entities/follow.entity';
 import { User } from '@src/entities/user.entity';
 
-export class FollowController {
+export class FollowService {
   public static async followUser(
     userId: string,
     targetId: string
