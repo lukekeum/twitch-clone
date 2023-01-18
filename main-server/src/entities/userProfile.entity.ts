@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from 'type-graphql';
+import { Field, ID, Int, ObjectType } from 'type-graphql';
 import {
   BaseEntity,
   Column,
@@ -20,6 +20,10 @@ export class UserProfile extends BaseEntity {
   @Field(() => String, { nullable: true })
   @Column('varchar', { length: 255 })
   nickname: string;
+
+  @Field(() => Int)
+  @Column('int', { default: 0 })
+  color: number;
 
   @Field(() => String, { nullable: true })
   @Column('varchar', { name: 'avatar_url', nullable: true })
