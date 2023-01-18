@@ -1,21 +1,38 @@
-import fastify, { FastifyInstance, FastifyServerOptions } from 'fastify';
+import fastify, {
+  FastifyInstance,
+  FastifyLoggerInstance,
+  FastifyServerOptions,
+} from 'fastify';
+import { IncomingMessage, ServerResponse, Server as HTTPServer } from 'http';
 import fastifyCors, { FastifyCorsOptions } from 'fastify-cors';
 import fastifyCookie from 'fastify-cookie';
+import fastifyWebSocket from '@fastify/websocket';
+import { JsonSchemaToTsProvider } from '@fastify/type-provider-json-schema-to-ts';
+import { makeHandler } from 'graphql-ws/lib/use/@fastify/websocket';
+import { ApolloServer, Config } from 'apollo-server-fastify';
 
-import rootRoute from './routes';
 import { CustomError, ErrorType } from './utils/errors/customError.class';
-import { ApolloServer } from 'apollo-server-fastify';
 import getGraphqlServerOptions from './utils/graphql';
 import { ResponseMessage } from './utils/errors/responseMessage';
+import rootRoute from './routes';
 
 export default class Server {
-  private readonly app: FastifyInstance;
+  private readonly app: FastifyInstance<
+    HTTPServer,
+    IncomingMessage,
+    ServerResponse,
+    FastifyLoggerInstance,
+    JsonSchemaToTsProvider
+  >;
   private readonly server: ApolloServer;
+  private readonly apolloConfig: Config;
   private corsOptions: FastifyCorsOptions;
 
   constructor(options?: FastifyServerOptions) {
     this.app = fastify(options);
     this.corsSetup(process.env.CORS_WHITELISTS);
+
+    const server = this.app.server;
 
     try {
       void this.app.register(fastifyCors, this.corsOptions);
@@ -23,10 +40,11 @@ export default class Server {
         secret: process.env.COOKIE_SECRET,
       });
       void this.app.register(rootRoute, { prefix: '/' });
+      void this.app.register(fastifyWebSocket);
 
-      const graphqlServerOptions = getGraphqlServerOptions();
+      this.apolloConfig = getGraphqlServerOptions(server);
 
-      this.server = new ApolloServer(graphqlServerOptions);
+      this.server = new ApolloServer(this.apolloConfig);
     } catch (err) {
       this.app.log.error(err);
       process.exit(1);
@@ -43,6 +61,14 @@ export default class Server {
           path: '/graphql',
         })
       );
+
+      void this.app.register(async (fastify) => {
+        fastify.get(
+          '/subscription',
+          { websocket: true },
+          makeHandler(this.apolloConfig)
+        );
+      });
 
       await this.app.listen(port, '');
     } catch (err) {
@@ -77,7 +103,7 @@ export default class Server {
     };
   }
 
-  get instance(): FastifyInstance {
+  get instance(): typeof this.app {
     return this.app;
   }
 }
