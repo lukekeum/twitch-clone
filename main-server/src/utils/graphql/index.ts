@@ -1,6 +1,6 @@
 import {
   ApolloServerPluginDrainHttpServer,
-  ApolloServerPluginLandingPageDisabled,
+  ApolloServerPluginLandingPageGraphQLPlayground,
 } from 'apollo-server-core';
 import { Config } from 'apollo-server-fastify';
 import { FastifyReply, FastifyRequest } from 'fastify';
@@ -36,7 +36,7 @@ export default function getGraphqlServerOptions(httpServer: Server) {
     },
     plugins: [
       ApolloServerPluginDrainHttpServer({ httpServer }),
-      ApolloServerPluginLandingPageDisabled(),
+      ApolloServerPluginLandingPageGraphQLPlayground(),
       ApolloServerLoaderPlugin({
         typeormGetConnection: getConnection,
       }),
