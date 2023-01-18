@@ -45,6 +45,14 @@ export class StreamSetting extends BaseEntity {
   })
   primaryStreamKey: string;
 
+  @Field(() => Boolean)
+  @Column('boolean', { name: 'latency_mode', default: false })
+  latencyMode: boolean;
+
+  @Field(() => Boolean)
+  @Column('boolean', { name: 'adult_contents', default: false })
+  adultContents: boolean;
+
   @Field(() => String)
   @Column('varchar', { default: '제목없음' })
   title: string;

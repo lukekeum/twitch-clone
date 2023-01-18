@@ -25,6 +25,10 @@ export class UserProfile extends BaseEntity {
   @Column('int', { default: 0 })
   color: number;
 
+  @Field(() => Int)
+  @Column('int', { default: 0x9147ff })
+  brandColor: number;
+
   @Field(() => String, { nullable: true })
   @Column('varchar', { name: 'avatar_url', nullable: true })
   avatarURL: string;

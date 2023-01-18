@@ -1,8 +1,10 @@
 import { StreamSetting } from '@src/entities/streamSetting.entity';
-import { User } from '@src/entities/user.entity';
+import { StreamSettingService } from './streamSetting.service';
 import { IsLoggedIn } from '@src/hooks/graphql/isLoggedIn';
+import { ContextType } from '@src/utils/graphql';
 import {
   Args,
+  Ctx,
   FieldResolver,
   Mutation,
   Resolver,
@@ -15,15 +17,13 @@ import { BroadcastSettingArgs } from './streamSetting.input';
 @Service()
 @Resolver(() => StreamSetting)
 export class StreamSettingResolver {
+  constructor(public streamSettingService: StreamSettingService) {}
+
   @FieldResolver(() => String)
   async streamURL(@Root() setting: StreamSetting) {
-    const user = await User.findOne({
-      where: { id: setting?.fk_user_id },
-    });
+    const userId = setting.fk_user_id;
 
-    if (!user) return;
-
-    return `${process.env.PROXY_ADDRESS}/live/${user.identifier}`;
+    return this.streamSettingService.getStreamURL(userId);
   }
 
   @UseMiddleware([IsLoggedIn(true)])
@@ -34,7 +34,15 @@ export class StreamSettingResolver {
 
   @UseMiddleware([IsLoggedIn(true)])
   @Mutation(() => Boolean)
-  async setBroadcastSettings(@Args() input: BroadcastSettingArgs) {
-    return false;
+  async setBroadcastSettings(
+    @Args() input: BroadcastSettingArgs,
+    @Ctx() { req }: ContextType
+  ) {
+    const result = await this.streamSettingService.changeSettings(
+      req.userId,
+      input
+    );
+    if (!result) return false;
+    return true;
   }
 }
