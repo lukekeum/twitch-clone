@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "NODE_ENV=production node dist/index.js",
-    "start:dev": "NODE_ENV=development ts-node-dev src/index.ts",
+    "start:dev": "NODE_ENV=development ts-node-dev src/index.ts | pino-pretty",
     "build": "tsc"
   },
   "devDependencies": {
