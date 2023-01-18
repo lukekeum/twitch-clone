@@ -16,7 +16,9 @@ import {
 import { Loader } from 'type-graphql-dataloader';
 import { In } from 'typeorm';
 import fetch from 'node-fetch';
+import { Service } from 'typedi';
 
+@Service()
 @Resolver(() => User)
 export class UserResolver {
   @UseMiddleware([IsLoggedIn(true)])

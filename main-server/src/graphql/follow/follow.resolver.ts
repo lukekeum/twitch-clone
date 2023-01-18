@@ -4,10 +4,14 @@ import { CustomError, ErrorType } from '@src/utils/errors/customError.class';
 import { ResponseMessage } from '@src/utils/errors/responseMessage';
 import { ContextType } from '@src/utils/graphql';
 import { Arg, Ctx, Mutation, Resolver, UseMiddleware } from 'type-graphql';
+import { Service } from 'typedi';
 import { FollowService } from './follow.service';
 
+@Service()
 @Resolver()
 export class FollowResolver {
+  constructor(public followService: FollowService) {}
+
   @UseMiddleware([IsLoggedIn(true)])
   @Mutation(() => Boolean, {
     defaultValue: false,
@@ -29,7 +33,10 @@ export class FollowResolver {
       });
     }
 
-    const result = await FollowService.followUser(user.identifier, identifier);
+    const result = await this.followService.followUser(
+      user.identifier,
+      identifier
+    );
 
     return result;
   }
@@ -51,7 +58,7 @@ export class FollowResolver {
       });
     }
 
-    const result = await FollowService.followUser(usrId, targetId);
+    const result = await this.followService.followUser(usrId, targetId);
 
     return result;
   }

@@ -1,11 +1,10 @@
 import { Follow } from '@src/entities/follow.entity';
 import { User } from '@src/entities/user.entity';
+import { Service } from 'typedi';
 
+@Service()
 export class FollowService {
-  public static async followUser(
-    userId: string,
-    targetId: string
-  ): Promise<boolean> {
+  public async followUser(userId: string, targetId: string): Promise<boolean> {
     try {
       const user = await User.findOne({ identifier: userId });
       const target = await User.findOne({ identifier: targetId });

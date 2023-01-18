@@ -22,11 +22,15 @@ import { CustomError, ErrorType } from '@src/utils/errors/customError.class';
 import { ResponseMessage } from '@src/utils/errors/responseMessage';
 import { ChatService } from './chat.service';
 import { SubChatArgs } from './chat.input';
+import { Service } from 'typedi';
 
 const channel = 'CHAT_CHANNEL';
 
+@Service()
 @Resolver(() => Chat)
 export class ChatResolver {
+  constructor(public chatService: ChatService) {}
+
   @Query(() => [Chat])
   @Loader<string, Chat[]>(async (ids) => {
     const chats = await Chat.find({
@@ -56,7 +60,11 @@ export class ChatResolver {
       });
     }
 
-    const result = await ChatService.addChat(req.userId, targetId, message);
+    const result = await this.chatService.addChat(
+      req.userId,
+      targetId,
+      message
+    );
 
     if (result.data) {
       await pubSub.publish(`${channel}`, result.data);
@@ -74,7 +82,7 @@ export class ChatResolver {
   subChat(@Args() input: SubChatArgs, @Root() chat: Chat): Chat {
     const returnValue = JSON.parse(
       JSON.stringify(chat),
-      ChatService.reviver.bind(this)
+      this.chatService.reviver.bind(this)
     );
     return returnValue;
   }

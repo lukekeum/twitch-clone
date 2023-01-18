@@ -2,13 +2,11 @@ import { Chat } from '@src/entities/chat.entity';
 import { User } from '@src/entities/user.entity';
 import { CustomError, ErrorType } from '@src/utils/errors/customError.class';
 import { ResponseMessage } from '@src/utils/errors/responseMessage';
+import { Service } from 'typedi';
 
+@Service()
 export class ChatService {
-  public static async addChat(
-    userId: string,
-    targetIdent: string,
-    message: string
-  ) {
+  public async addChat(userId: string, targetIdent: string, message: string) {
     const user = await User.findOne({
       where: { id: userId },
       relations: ['userProfile'],
@@ -50,7 +48,7 @@ export class ChatService {
     return { result: true, data: chat };
   }
 
-  private static async checkCommand(
+  private async checkCommand(
     user: User,
     targetId: string,
     message: string
@@ -58,7 +56,7 @@ export class ChatService {
     return false;
   }
 
-  public static reviver(key: string, value: unknown) {
+  public reviver(key: string, value: unknown) {
     const dateFormat = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/;
 
     if (typeof value === 'string' && dateFormat.test(value)) {
