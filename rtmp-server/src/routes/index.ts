@@ -1,6 +1,7 @@
 import { FastifyPluginCallback, FastifyRequest } from 'fastify';
 import { CustomError, ErrorType } from '../utils/customError.class';
 import axios from 'axios';
+import { StreamWatching } from 'src/utils/streamWatching.class';
 
 interface ResponseData {
   id: string;
@@ -22,9 +23,20 @@ interface ResponseData {
 
 const rootRoute: FastifyPluginCallback = (fastify, _, done) => {
   fastify.get(
+    '/live/:identifier/view-count',
+    async (req: FastifyRequest<{ Params: { identifier: string } }>) => {
+      const { identifier } = req.params;
+      const count = StreamWatching.getViewCount(identifier);
+
+      return { count };
+    }
+  );
+
+  fastify.get(
     '/live/:identifier',
     async (req: FastifyRequest<{ Params: { identifier: string } }>, res) => {
       const { identifier } = req.params;
+      const ip = req.ip;
       const response = await axios.get(
         `${process.env.SERVER_ADDRESS}/v1/user/user?id=${identifier}`
       );
@@ -35,6 +47,8 @@ const rootRoute: FastifyPluginCallback = (fastify, _, done) => {
           message: 'User not found',
         });
       }
+
+      StreamWatching.refreshViewer(identifier, ip);
 
       const data = response.data as ResponseData;
 
